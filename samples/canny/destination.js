@@ -9,7 +9,7 @@ export const Destination = (objects) => {
             Object.keys(objects).map(name => ({ object_api_name: name, label: objects[name].label }));
         },
         supported_operations: ({ object }) => {
-            return ["upsert"];
+            return { operations: ["upsert"] }
         },
         list_fields: ({ object }) => {
             return { fields: objects[object.object_api_name].fields };
