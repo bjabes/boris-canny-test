@@ -83,13 +83,13 @@ server.sync_batch = async ({ sync_plan, records }) => {
       return {
         identifier: record.userID,
         success: false,
-        error_message: error,
+        error_message: error.code,
       };
     }
   }));
 
   console.log(results);
-  
+
   return {
     record_results: results
   };
