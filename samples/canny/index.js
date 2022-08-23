@@ -3,6 +3,35 @@
 
 const { default: axios } = require("axios");
 
+const CANNY_OBJECTS = {
+  user: {
+    label: "Users",
+    operations: ["upsert"],
+    fields: [
+      {
+        field_api_name: "userID",
+        label: "User ID",
+        identifier: true,
+        createable: true,
+        updateable: false,
+        type: "string",
+        required: true,
+        array: false,
+      },
+      {
+        field_api_name: "name",
+        label: "Name",
+        identifier: false,
+        createable: true,
+        updateable: true,
+        type: "string",
+        required: true,
+        array: false,
+      },
+    ]
+  }
+}
+
 const server = {};
 
 server.test_connection = () => {
@@ -11,46 +40,21 @@ server.test_connection = () => {
 
 server.list_objects = () => {
   return {
-    objects: [
-      { object_api_name: "user", label: "Users" },
-    ],
+    objects: Object.keys(CANNY_OBJECTS)
+                   .map(name => ({ 
+                      object_api_name: name, label: CANNY_OBJECTS[name].label
+                    }))
   };
 };
 
 server.supported_operations = ({ object }) => {
   console.log("listing operations for object", object);
-  return { operations: ["upsert"] };
+  return { operations: CANNY_OBJECTS[object].operations };
 };
 
 server.list_fields = ({ object }) => {
   console.log("listing fields for object", object);
-  if (object.object_api_name === "user") {
-    return {
-      fields: [
-        {
-          field_api_name: "userID",
-          label: "User ID",
-          identifier: true,
-          createable: true,
-          updateable: false,
-          type: "string",
-          required: true,
-          array: false,
-        },
-        {
-          field_api_name: "name",
-          label: "Name",
-          identifier: false,
-          createable: true,
-          updateable: true,
-          type: "string",
-          required: true,
-          array: false,
-        },
-      ]
-    };
-  }
-  else { return {}; }
+  return CANNY_OBJECTS[object].fields;
 };
 
 server.get_sync_speed = () => {
@@ -66,12 +70,16 @@ server.sync_batch = ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
   return {
     record_results: records.map((record, index) => {
-      success = [true, false][index % 2];
-      return {
-        identifier: record.userID,
-        success,
-        error_message: success ? null : "oops!",
-      };
+      axios.get('https://canny.io/api/v1/users/create_or_update',{
+        apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
+        ...record
+      }).then(resp => {
+        return {
+          identifier: record.userID,
+          success: true,
+          error_message: null,
+        };
+      })
     }),
   };
 };
