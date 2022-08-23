@@ -70,7 +70,7 @@ server.sync_batch = async ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
   const results = await Promise.all(records.map(async record => {
     try {
-      const res = await axios.get('https://canny.io/api/v1/users/create_or_update', {
+      const res = await axios.post('https://canny.io/api/v1/users/create_or_update', {
         apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
         ...record
       });
