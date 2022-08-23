@@ -69,7 +69,7 @@ server.sync_batch = ({ sync_plan, records }) => {
       console.log(record);
       success = [true, false][index % 2];
       return {
-        identifier: record.email,
+        identifier: record.userID,
         success,
         error_message: success ? null : "oops!",
       };
