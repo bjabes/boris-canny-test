@@ -54,7 +54,7 @@ server.supported_operations = ({ object }) => {
 
 server.list_fields = ({ object }) => {
   console.log("listing fields for object", object);
-  return CANNY_OBJECTS[object.object_api_name].fields;
+  return { fields: CANNY_OBJECTS[object.object_api_name].fields };
 };
 
 server.get_sync_speed = () => {
