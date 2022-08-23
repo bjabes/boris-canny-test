@@ -119,6 +119,7 @@ server.sync_batch = async ({ sync_plan, records }) => {
 
 exports.handler = async function(event, context) {
   const requestBodyBuffer = event.body;
+  console.log(requestBodyBuffer);
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
   const result = server[method](params);
