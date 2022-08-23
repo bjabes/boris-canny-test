@@ -121,7 +121,7 @@ exports.handler = async function(event, context) {
   console.log(requestBodyBuffer);
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
-  const result = server[method](params);
+  const result = await server[method](params);
 
   const response = {
     jsonrpc: "2.0",
