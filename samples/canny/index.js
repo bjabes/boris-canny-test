@@ -49,7 +49,7 @@ server.list_objects = () => {
 
 server.supported_operations = ({ object }) => {
   console.log("listing operations for object", object);
-  return { operations: CANNY_OBJECTS[object].operations };
+  return { operations: CANNY_OBJECTS[object.object_api_name].operations };
 };
 
 server.list_fields = ({ object }) => {
