@@ -66,28 +66,51 @@ server.get_sync_speed = () => {
   };
 };
 
-server.sync_batch = ({ sync_plan, records }) => {
+server.sync_batch = async ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
-  return {
-    record_results: records.map((record, index) => {
-      axios.get('https://canny.io/api/v1/users/create_or_update',{
+  results = await Promise.all(records.map(async record => {
+    try {
+      const res = await axios.get('https://canny.io/api/v1/users/create_or_update', {
         apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
         ...record
-      }).then(resp => {
-        return {
-          identifier: record.userID,
-          success: true,
-          error_message: null,
-        };
-      }).catch(error => {
-        return {
-          identifier: record.userID,
-          success: false,
-          error_message: error,
-        };
-      })
-    }),
+      });
+      return {
+        identifier: record.userID,
+        success: true,
+        error_message: null,
+      }
+    } catch (error) {
+      return {
+        identifier: record.userID,
+        success: false,
+        error_message: error,
+      };
+    }
+  }));
+  
+  return {
+    record_results: results
   };
+  // return {
+  //   record_results: records.map((record, index) => {
+  //     axios.get('https://canny.io/api/v1/users/create_or_update',{
+  //       apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
+  //       ...record
+  //     }).then(resp => {
+  //       return {
+  //         identifier: record.userID,
+  //         success: true,
+  //         error_message: null,
+  //       };
+  //     }).catch(error => {
+  //       return {
+  //         identifier: record.userID,
+  //         success: false,
+  //         error_message: error,
+  //       };
+  //     })
+  //   }),
+  // };
 };
 
 // Run as a AWS Lambda-style handler function
