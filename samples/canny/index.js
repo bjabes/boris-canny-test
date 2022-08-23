@@ -68,7 +68,7 @@ server.get_sync_speed = () => {
 
 server.sync_batch = async ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
-  const key_column = sync_plan.schema.find(v => v.active_identifier).field.field_api_name;
+  const key_column = Object.values(sync_plan.schema).find(v => v.active_identifier).field.field_api_name;
   const record_results = await Promise.all(records.map(async record => {
     try {
       const res = await axios.post('https://canny.io/api/v1/users/create_or_update', {
@@ -91,7 +91,7 @@ server.sync_batch = async ({ sync_plan, records }) => {
   console.log(record_results);
 
   return { record_results };
-  
+
   // return {
   //   record_results: records.map((record, index) => {
   //     axios.get('https://canny.io/api/v1/users/create_or_update',{
