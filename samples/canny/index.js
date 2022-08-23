@@ -56,7 +56,7 @@ server.list_fields = ({ object }) => {
 server.get_sync_speed = () => {
   console.log("get sync speed");
   return {
-    maximum_batch_size: 1,
+    maximum_batch_size: 100,
     maximum_records_per_second: 10,
     maximum_parallel_batches: 4,
   };
