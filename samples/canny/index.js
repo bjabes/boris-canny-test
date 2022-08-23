@@ -1,12 +1,16 @@
-// Mimimal conforming custom connection implementation - zero external
-// dependencies
+// Mimimal canny custom destination implementation
 
 const { default: axios } = require("axios");
 
 const CANNY_OBJECTS = {
   user: {
     label: "Users",
-    operations: ["upsert"],
+    operations: [
+      {
+        name: "upsert",
+        endpoint: "https://canny.io/api/v1/users/create_or_update"
+      }
+    ],
     fields: [
       {
         field_api_name: "userID",
@@ -69,9 +73,11 @@ server.get_sync_speed = () => {
 server.sync_batch = async ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
   const key_column = Object.values(sync_plan.schema).find(v => v.active_identifier).field.field_api_name;
+  const endpoint = CANNY_OBJECTS[sync_plan.object.object_api_name].endpoint;
+
   const record_results = await Promise.all(records.map(async record => {
     try {
-      const res = await axios.post('https://canny.io/api/v1/users/create_or_update', {
+      const res = await axios.post(endpoint, {
         apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
         ...record
       });
