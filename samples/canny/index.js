@@ -65,7 +65,7 @@ server.get_sync_speed = () => {
 server.sync_batch = ({ sync_plan, records }) => {
   console.log("sync one batch of data", { sync_plan, records });
   return {
-    record_results: records.map(async (record, index) => {
+    record_results: records.map((record, index) => {
       success = [true, false][index % 2];
       return {
         identifier: record.userID,
