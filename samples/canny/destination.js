@@ -6,7 +6,7 @@ export const Destination = (objects) => {
             return { success: true };
         },
         list_objects: () => {
-            Object.keys(objects).map(name => ({ object_api_name: name, label: objects[name].label }))
+            Object.keys(objects).map(name => ({ object_api_name: name, label: objects[name].label }));
         },
         supported_operations: ({ object }) => {
             return ["upsert"];
@@ -23,7 +23,7 @@ export const Destination = (objects) => {
         },
         sync_batch: async ({ sync_plan, records }) => {
             const key_column = Object.values(sync_plan.schema).find(v => v.active_identifier).field.field_api_name;
-            const record_results = await Promise.all(records.map(async record => {
+            const record_results = await Promise.all(records.map(async (record) => {
                 try {
                     const res = await objects[sync_plan.object.object_api_name].upsertHandler(record);
                     return {
@@ -40,5 +40,5 @@ export const Destination = (objects) => {
             }));
             return { record_results };
         }
-    }
+    };
 }

@@ -46,7 +46,7 @@ const CANNY_OBJECTS = {
   }
 }
 
-const destination = new Destination(CANNY_OBJECTS);
+const destination = Destination(CANNY_OBJECTS);
 
 exports.handler = async function(event, context) {
   const requestBodyBuffer = event.body;
