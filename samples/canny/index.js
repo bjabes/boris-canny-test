@@ -54,7 +54,7 @@ server.supported_operations = ({ object }) => {
 
 server.list_fields = ({ object }) => {
   console.log("listing fields for object", object);
-  return CANNY_OBJECTS[object].fields;
+  return CANNY_OBJECTS[object.object_api_name].fields;
 };
 
 server.get_sync_speed = () => {
@@ -78,6 +78,12 @@ server.sync_batch = ({ sync_plan, records }) => {
           identifier: record.userID,
           success: true,
           error_message: null,
+        };
+      }).catch(error => {
+        return {
+          identifier: record.userID,
+          success: false,
+          error_message: error,
         };
       })
     }),
