@@ -17,7 +17,6 @@ const CANNY_OBJECTS = {
         field_api_name: "userID",
         label: "User ID",
         identifier: true,
-        createable: true,
         updateable: false,
         type: "string",
         required: true,
@@ -26,13 +25,24 @@ const CANNY_OBJECTS = {
       {
         field_api_name: "name",
         label: "Name",
-        identifier: false,
-        createable: true,
-        updateable: true,
         type: "string",
         required: true,
-        array: false,
       },
+      {
+        field_api_name: "avatarURL",
+        label: "Avatar URL",
+        type: "string",
+      },
+      {
+        field_api_name: "created",
+        label: "Created Date",
+        type: "date_time"
+      },
+      {
+        field_api_name: "email",
+        label: "Email",
+        type: "string"
+      }
     ]
   }
 }
