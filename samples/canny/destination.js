@@ -14,7 +14,11 @@ export const Destination = (objects) => {
             return { success: true };
         },
         list_objects: () => {
-            Object.keys(objects).map(name => ({ object_api_name: name, label: objects[name].label }));
+            Object.keys(objects).map(name => ({ 
+                object_api_name: name, 
+                label: objects[name].label,
+                can_create_fields: objects[name].can_create_fields 
+            }));
         },
         supported_operations: ({ object }) => {
             return { operations: ["upsert"] };

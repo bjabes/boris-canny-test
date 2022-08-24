@@ -6,6 +6,7 @@ const { Destination } = require("./destination");
 const CANNY_OBJECTS = {
   user: {
     label: "Users",
+    can_create_fields: "on_write",
     upsertHandler: (record) => {
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
         apiKey: process.env.CANNY_APY_KEY,
