@@ -20,9 +20,9 @@ export const Destination = (objects) => {
             return { operations: ["upsert"] };
         },
         list_fields: ({ object }) => {
-            const fields = objects[object.object_api_name].fields.map(f => {
-                return Object.assign(FIELD_DEFAULTS, f)
-            })
+            const fields = objects[object.object_api_name].fields.map(f => 
+                Object.assign({}, FIELD_DEFAULTS, f)
+            )
             return { fields };
         },
         get_sync_speed: () => {
