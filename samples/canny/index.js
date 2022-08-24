@@ -3,14 +3,28 @@
 const { default: axios } = require("axios");
 const { Destination } = require("./destination");
 
+const isCustomField = (fieldName, objectName) => {
+  const objectFields = CANNY_OBJECTS[objectName].fields.map(f => f.field_api_name);
+  return !objectFields.includes(fieldName);
+}
+
 const CANNY_OBJECTS = {
   user: {
     label: "Users",
     can_create_fields: "on_write",
     upsertHandler: (record) => {
+      const customFields = Object.keys(record)
+        .filter(f => isCustomField(f, 'user'))
+        .reduce((obj, key) => ({ ...obj, [key]: record[key] }), {});
+      const filteredRecord = Object.keys(record)
+        .filter(f => !isCustomField(f, 'user'))
+        .reduce((obj, key) => ({ ...obj, [key]: record[key] }), {});
+
+      const uploadRecord = { customFields, ...filteredRecord };
+      console.log(uploadRecord);
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
         apiKey: process.env.CANNY_API_KEY,
-        ...record
+        ...uploadRecord
       });
     },
     fields: [
