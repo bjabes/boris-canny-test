@@ -9,12 +9,6 @@ const { Destination } = require("./destination");
 const CANNY_OBJECTS = {
   user: {
     label: "Users",
-    operations: [
-      {
-        name: "upsert",
-        endpoint: "https://canny.io/api/v1/users/create_or_update"
-      }
-    ],
     upsertHandler: (record) => {
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
         apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
