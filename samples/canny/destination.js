@@ -8,23 +8,24 @@ const FIELD_DEFAULTS = {
     array: false,
 }
 
-export const Destination = (objects) => {
+export const Destination = (destinationObjects) => {
     return {
         test_connection: () => {
             return { success: true };
         },
         list_objects: () => {
-            return Object.keys(objects).map(name => ({ 
+            const objects = Object.keys(destinationObjects).map(name => ({ 
                 object_api_name: name, 
-                label: objects[name].label,
-                can_create_fields: objects[name].can_create_fields 
+                label: destinationObjects[name].label,
+                can_create_fields: destinationObjects[name].can_create_fields ?? null
             }));
+            return { objects };
         },
         supported_operations: ({ object }) => {
             return { operations: ["upsert"] };
         },
         list_fields: ({ object }) => {
-            const fields = objects[object.object_api_name].fields.map(f => 
+            const fields = destinationObjects[object.object_api_name].fields.map(f => 
                 Object.assign({}, FIELD_DEFAULTS, f)
             )
             return { fields };
@@ -40,7 +41,7 @@ export const Destination = (objects) => {
             const key_column = Object.values(sync_plan.schema).find(v => v.active_identifier).field.field_api_name;
             const record_results = await Promise.all(records.map(async (record) => {
                 try {
-                    const res = await objects[sync_plan.object.object_api_name].upsertHandler(record);
+                    const res = await destinationObjects[sync_plan.object.object_api_name].upsertHandler(record);
                     return {
                         identifier: record[key_column],
                         success: true,
