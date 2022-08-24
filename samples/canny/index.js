@@ -48,11 +48,11 @@ const CANNY_OBJECTS = {
   }
 }
 
-const destination = Destination(CANNY_OBJECTS);
-
 exports.handler = async function(event, context) {
+  const destination = Destination(CANNY_OBJECTS);
   const requestBodyBuffer = event.body;
   console.log(requestBodyBuffer);
+  console.log(process.env.CANNY_APY_KEY);
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
   const result = await destination[method](params);
