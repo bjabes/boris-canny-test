@@ -8,7 +8,7 @@ const CANNY_OBJECTS = {
     label: "Users",
     upsertHandler: (record) => {
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
-        apiKey: '8f034cb7-f14a-39bd-25fe-a09a3e14b477',
+        apiKey: process.env.CANNY_APY_KEY,
         ...record
       });
     },
