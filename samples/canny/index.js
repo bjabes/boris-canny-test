@@ -1,8 +1,5 @@
 // Mimimal canny custom destination implementation
 
-// export default syncer = new Syncer(listOfObjects, recordHandler)
-// export default destination = new Destination(fields, recordHandler)
-
 const { default: axios } = require("axios");
 const { Destination } = require("./destination");
 

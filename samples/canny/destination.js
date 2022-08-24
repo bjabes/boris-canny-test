@@ -1,5 +1,13 @@
 // helper for simple non-batched upsert destinations
 
+const FIELD_DEFAULTS = {
+    identifier: false,
+    createable: true,
+    updateable: true,
+    required: false,
+    array: false,
+}
+
 export const Destination = (objects) => {
     return {
         test_connection: () => {
@@ -12,7 +20,10 @@ export const Destination = (objects) => {
             return { operations: ["upsert"] };
         },
         list_fields: ({ object }) => {
-            return { fields: objects[object.object_api_name].fields };
+            const fields = objects[object.object_api_name].fields.map(f => {
+                return Object.assign(FIELD_DEFAULTS, f)
+            })
+            return { fields };
         },
         get_sync_speed: () => {
             return {
