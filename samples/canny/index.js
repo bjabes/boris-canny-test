@@ -9,7 +9,7 @@ const CANNY_OBJECTS = {
     can_create_fields: "on_write",
     upsertHandler: (record) => {
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
-        apiKey: process.env.CANNY_APY_KEY,
+        apiKey: process.env.CANNY_API_KEY,
         ...record
       });
     },
@@ -52,7 +52,6 @@ exports.handler = async function(event, context) {
   const destination = Destination(CANNY_OBJECTS);
   const requestBodyBuffer = event.body;
   console.log(requestBodyBuffer);
-  console.log(process.env.CANNY_APY_KEY);
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
   const result = await destination[method](params);
