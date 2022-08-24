@@ -32,8 +32,8 @@ export const Destination = (destinationObjects) => {
         },
         get_sync_speed: () => {
             return {
-                maximum_batch_size: 300,
-                maximum_records_per_second: 10,
+                maximum_batch_size: 1000,
+                maximum_records_per_second: 100,
                 maximum_parallel_batches: 4,
             };
         },
