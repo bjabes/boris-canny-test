@@ -17,7 +17,7 @@ export const Destination = (destinationObjects) => {
             const objects = Object.keys(destinationObjects).map(name => ({ 
                 object_api_name: name, 
                 label: destinationObjects[name].label,
-                can_create_fields: destinationObjects[name].can_create_fields ?? null
+                can_create_fields: destinationObjects[name].can_create_fields
             }));
             return { objects };
         },
