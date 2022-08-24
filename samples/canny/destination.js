@@ -47,6 +47,7 @@ export const Destination = (destinationObjects) => {
                         success: true,
                     };
                 } catch (error) {
+                    console.log(error);
                     return {
                         identifier: record[key_column],
                         success: false,

@@ -21,7 +21,6 @@ const CANNY_OBJECTS = {
         .reduce((obj, key) => ({ ...obj, [key]: record[key] }), {});
 
       const uploadRecord = { customFields, ...filteredRecord };
-      console.log(uploadRecord);
       return axios.post('https://canny.io/api/v1/users/create_or_update', {
         apiKey: process.env.CANNY_API_KEY,
         ...uploadRecord
